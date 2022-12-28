@@ -1,0 +1,21 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project version="4">
+  <component name="WebServers">
+    <option name="servers">
+      <webServer id="719cce5c-e530-472e-a1f0-880201cae717" name="Deploy Client">
+        <fileTransfer rootFolder="/home/steam/fivem/server-data/resources/JackzBuilder/Client" accessType="SFTP" host="192.168.1.15" port="22" sshConfigId="e4d8fa05-c227-4741-920f-1f2b8106458b" sshConfig="jackz@192.168.1.15:22 key" keyPair="true">
+          <advancedOptions>
+            <advancedOptions dataProtectionLevel="Private" passiveMode="true" shareSSLContext="true" />
+          </advancedOptions>
+        </fileTransfer>
+      </webServer>
+      <webServer id="8e762243-cd29-4d00-a583-c87f5c5b6670" name="Deploy Server">
+        <fileTransfer rootFolder="/home/steam/fivem/server-data/resources/JackzBuilder/Server" accessType="SFTP" host="192.168.1.15" port="22" sshConfigId="e4d8fa05-c227-4741-920f-1f2b8106458b" sshConfig="jackz@192.168.1.15:22 key" keyPair="true">
+          <advancedOptions>
+            <advancedOptions dataProtectionLevel="Private" passiveMode="true" shareSSLContext="true" />
+          </advancedOptions>
+        </fileTransfer>
+      </webServer>
+    </option>
+  </component>
+</project>

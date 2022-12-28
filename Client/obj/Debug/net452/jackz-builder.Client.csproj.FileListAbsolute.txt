@@ -1,0 +1,11 @@
+S:\Jackz\Documents\Code\GTA\fivem\sandbox-test-2\sandbox2\jackz-builder\Client\obj\Debug\net452\jackz-builder.Client.csproj.AssemblyReference.cache
+S:\Jackz\Documents\Code\GTA\fivem\sandbox-test-2\sandbox2\jackz-builder\Client\obj\Debug\net452\jackz-builder.Client.GeneratedMSBuildEditorConfig.editorconfig
+S:\Jackz\Documents\Code\GTA\fivem\sandbox-test-2\sandbox2\jackz-builder\Client\obj\Debug\net452\jackz-builder.Client.AssemblyInfoInputs.cache
+S:\Jackz\Documents\Code\GTA\fivem\sandbox-test-2\sandbox2\jackz-builder\Client\obj\Debug\net452\jackz-builder.Client.AssemblyInfo.cs
+S:\Jackz\Documents\Code\GTA\fivem\sandbox-test-2\sandbox2\jackz-builder\Client\obj\Debug\net452\jackz-builder.Client.csproj.CoreCompileInputs.cache
+S:\Jackz\Documents\Code\GTA\fivem\sandbox-test-2\sandbox2\jackz-builder\Client\bin\Debug\net452\jackz-builder.Client.net.dll
+S:\Jackz\Documents\Code\GTA\fivem\sandbox-test-2\sandbox2\jackz-builder\Client\bin\Debug\net452\CitizenFX.Core.Client.dll
+S:\Jackz\Documents\Code\GTA\fivem\sandbox-test-2\sandbox2\jackz-builder\Client\bin\Debug\net452\MenuAPI.dll
+S:\Jackz\Documents\Code\GTA\fivem\sandbox-test-2\sandbox2\jackz-builder\Client\bin\Debug\net452\Newtonsoft.Json.dll
+S:\Jackz\Documents\Code\GTA\fivem\sandbox-test-2\sandbox2\jackz-builder\Client\obj\Debug\net452\jackz-builder.Client.csproj.CopyComplete
+S:\Jackz\Documents\Code\GTA\fivem\sandbox-test-2\sandbox2\jackz-builder\Client\obj\Debug\net452\jackz-builder.Client.net.dll

@@ -1,0 +1,4 @@
+S:\Jackz\Documents\Code\GTA\fivem\sandbox-test-2\sandbox2\jackz-builder\Server\bin\Release\netstandard2.0\publish\jackz-builder.Server.net.dll
+S:\Jackz\Documents\Code\GTA\fivem\sandbox-test-2\sandbox2\jackz-builder\Server\bin\Release\netstandard2.0\publish\jackz-builder.Server.deps.json
+S:\Jackz\Documents\Code\GTA\fivem\sandbox-test-2\sandbox2\jackz-builder\Server\bin\Release\netstandard2.0\publish\jackz-builder.Server.net.pdb
+S:\Jackz\Documents\Code\GTA\fivem\sandbox-test-2\sandbox2\jackz-builder\Server\bin\Release\netstandard2.0\publish\CitizenFX.Core.Server.dll

@@ -1,0 +1,12 @@
+{
+  "version": 2,
+  "dgSpecHash": "sjkAwngOGLwVA+J9TYfmkCTeI96Y+82CNtyDbM43ul2W7KU9i8cGYDJ9a6JqSsEyYgSgWLSvcAG2qkUuU65lvw==",
+  "success": true,
+  "projectFilePath": "S:\\Jackz\\Documents\\Code\\GTA\\fivem\\sandbox-test-2\\sandbox2\\jackz-builder\\Client\\jackz-builder.Client.csproj",
+  "expectedPackageFiles": [
+    "C:\\Users\\Jackz\\.nuget\\packages\\citizenfx.core.client\\1.0.6168\\citizenfx.core.client.1.0.6168.nupkg.sha512",
+    "C:\\Users\\Jackz\\.nuget\\packages\\menuapi.fivem\\3.2.2\\menuapi.fivem.3.2.2.nupkg.sha512",
+    "C:\\Users\\Jackz\\.nuget\\packages\\citizenfx.framework.client\\0.2.3\\citizenfx.framework.client.0.2.3.nupkg.sha512"
+  ],
+  "logs": []
+}

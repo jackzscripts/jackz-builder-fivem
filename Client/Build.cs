@@ -66,7 +66,7 @@ namespace jackz_builder.Client.JackzBuilder
 
             var lines = new List<string>();
 
-            var versionText = "Format Version: {Version} ";
+            var versionText = $"Format Version: {Version} ";
             var result = new Semver(Version).Compare(BuilderMain.BuilderVersion);
             if (result == SemverResult.SmallerThan)
                 versionText += $"(Older version, latest {BuilderMain.BuilderVersion}";
@@ -80,7 +80,7 @@ namespace jackz_builder.Client.JackzBuilder
             {
                 DateTime dtDateTime = new DateTime(1970, 1, 1, 0, 0, 0, 0, DateTimeKind.Utc);
                 dtDateTime = dtDateTime.AddMilliseconds(Created.Value).ToLocalTime();
-                lines.Add("Created: " + dtDateTime.ToString("h:mm:ss tt UTC"));
+                lines.Add("Created: " + dtDateTime.ToString("yyyy/MM/dd h:mm:ss tt UTC"));
             }
 
             if (Author != null)

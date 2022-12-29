@@ -1,7 +1,7 @@
 <Project Sdk="CitizenFX.Sdk.Client/0.2.3">
     <PropertyGroup>
-      <LangVersion>8</LangVersion>
-      <Nullable>annotations</Nullable>
+      <LangVersion>9</LangVersion>
+      <Nullable>disable</Nullable>
       <IsPackable>false</IsPackable>
       <TargetFramework>net452</TargetFramework>
     </PropertyGroup>

@@ -158,29 +158,20 @@ namespace jackz_builder.Client.Notification
         public int duration { get; set; }
         public string position { get; set; }
 
-        private string _convertPosition(Position? position)
+        private string? _convertPosition(Position? position)
         {
-            switch (position)
+            return position switch
             {
-                case Notification.Position.TopLeft:
-                    return "top-left";
-                case Notification.Position.TopCenter:
-                    return "top-center";
-                case Notification.Position.TopRight:
-                    return "top-right";
-                case Notification.Position.BottomLeft:
-                    return "bottom-left";
-                case Notification.Position.BottomCenter:
-                    return "bottom-center";
-                case Notification.Position.BottomRight:
-                    return "bottom-right";
-                case Notification.Position.MiddleLeft:
-                    return "middle-left";
-                case Notification.Position.MiddleRight:
-                    return "middle-right";
-                default:
-                    return null;
-            }
+                Notification.Position.TopLeft => "top-left",
+                Notification.Position.TopCenter => "top-center",
+                Notification.Position.TopRight => "top-right",
+                Notification.Position.BottomLeft => "bottom-left",
+                Notification.Position.BottomCenter => "bottom-center",
+                Notification.Position.BottomRight => "bottom-right",
+                Notification.Position.MiddleLeft => "middle-left",
+                Notification.Position.MiddleRight => "middle-right",
+                _ => null
+            };
         }
         
     }

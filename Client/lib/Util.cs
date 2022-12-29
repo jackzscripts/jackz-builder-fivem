@@ -3,7 +3,6 @@ using System.Collections.Generic;
 using System.Threading.Tasks;
 using CitizenFX.Core;
 using CitizenFX.Core.Native;
-using jackz_builder.Client.JackzBuilder;
 using MenuAPI;
 using static CitizenFX.Core.Native.API;
 
@@ -174,7 +173,7 @@ namespace jackz_builder.Client.lib
         }
         
         // Taken from vMenu
-        public static async Task<string> GetUserInput(string windowTitle, string defaultText, int maxInputLength)
+        public static async Task<string?> GetUserInput(string windowTitle, string defaultText, int maxInputLength)
         {
             // Create the window title string.
             var spacer = "\t";

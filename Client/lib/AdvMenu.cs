@@ -2,7 +2,6 @@ using System.Collections.Generic;
 using System.Linq;
 using MenuAPI;
 
-
 namespace jackz_builder.Client.lib
 {
     public delegate void ItemSelectedCallback(int itemIndex);
@@ -190,6 +189,7 @@ namespace jackz_builder.Client.lib
             foreach (var kv in itemMenus.Where(kv => menuItem == kv.Key))
             {
                 kv.Value(itemIndex);
+                break;
             }
         }
 
@@ -198,6 +198,7 @@ namespace jackz_builder.Client.lib
             foreach (var kv in sliderMenus.Where(kv => sliderItem == kv.Key))
             {
                 kv.Value(itemIndex, oldValue, newValue);
+                break;
             }
         }
         private void _OnCheckboxValueChanged(Menu menu, MenuItem item, int itemIndex, bool active)
@@ -205,6 +206,7 @@ namespace jackz_builder.Client.lib
             foreach (var kv in checkboxMenus.Where(kv => item == kv.Key))
             {
                 kv.Value(itemIndex, active);
+                break;
             }
         }
         
@@ -214,6 +216,7 @@ namespace jackz_builder.Client.lib
             foreach (var kv in listMenus.Where(kv => listItem == kv.Key))
             {
                 kv.Value.SelectCallback(itemIndex, selectedIndex);
+                break;
             }
         }
         
@@ -222,6 +225,7 @@ namespace jackz_builder.Client.lib
             foreach (var kv in listMenus.Where(kv => listItem == kv.Key))
             {
                 kv.Value.IndexChangedCallback.Invoke(itemIndex, oldSelectIndex, newSelectIndex);
+                break;
             }
         }
         
@@ -230,6 +234,7 @@ namespace jackz_builder.Client.lib
             foreach (var kv in dynamicListMenus.Where(kv => listItem == kv.Key))
             {
                 kv.Value.SelectCallback.Invoke(listItem, currentItem);
+                break;
             }
         }
 
@@ -238,6 +243,7 @@ namespace jackz_builder.Client.lib
             foreach (var kv in dynamicListMenus.Where(kv => listItem == kv.Key))
             {
                 kv.Value.IndexChangedCallback.Invoke(listItem, oldValue, newValue);
+                break;
             }
         }
     }

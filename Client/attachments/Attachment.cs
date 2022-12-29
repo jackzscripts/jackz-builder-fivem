@@ -1,5 +1,6 @@
 using System;
 using System.Collections.Generic;
+using System.Runtime.Serialization;
 using System.Threading.Tasks;
 using CitizenFX.Core;
 using CitizenFX.Core.Native;
@@ -15,8 +16,8 @@ namespace jackz_builder.Client.JackzBuilder
     public class Attachment
     {
         public AdvMenu Root;
-        public Entity ParentEntity;
-        private Entity _entity;
+        public Entity? ParentEntity;
+        private Entity? _entity;
 
         public Entity Entity
         {
@@ -48,28 +49,23 @@ namespace jackz_builder.Client.JackzBuilder
         {
             get
             {
-                switch (Type)
+                return Type switch
                 {
-                    case EntityType.Ped: return "ped";
-                    case EntityType.Prop: return "object";
-                    case EntityType.Vehicle: return "vehicle";
-                    default: return "entity";
-                }
+                    EntityType.Ped => "ped",
+                    EntityType.Prop => "object",
+                    EntityType.Vehicle => "vehicle",
+                    _ => "entity"
+                };
             }
             set
             {
-                switch (value)
+                Type = value switch
                 {
-                    case "ped": 
-                        Type = EntityType.Ped;
-                        break;
-                    case "object":
-                        Type = EntityType.Prop;
-                        break;
-                    case "vehicle":
-                        Type = EntityType.Vehicle;
-                        break;
-                }
+                    "ped" => EntityType.Ped,
+                    "object" => EntityType.Prop,
+                    "vehicle" => EntityType.Vehicle,
+                    _ => Type
+                };
             }
         }
 
@@ -84,15 +80,17 @@ namespace jackz_builder.Client.JackzBuilder
 
         [JsonProperty("name")] private string _name;
 
-        [JsonProperty("savedata")] private string _saveData;
-        public VehicleInfo GetSavedSaveData()
-        {
-            return _saveData == null ? null : JsonConvert.DeserializeObject<VehicleInfo>(_saveData);
-        }
+        [JsonProperty("savedata")] private VehicleInfo _saveData;
 
-        public void Export()
+        [OnSerializing]
+        // Serialize any attachment entity data
+        internal void OnSerializing(StreamingContext context)
         {
-            _saveData = JsonConvert.SerializeObject(VehicleManager.SerializeVehicle((Vehicle)Entity));
+            if (Type == EntityType.Vehicle)
+            {
+                _saveData = VehicleManager.SerializeVehicle((Vehicle)Entity);
+                Debug.WriteLine($"Saved vehicle data for {Id}/{Name}:\n{_saveData}");
+            }
         }
 
         public string Name
@@ -139,15 +137,14 @@ namespace jackz_builder.Client.JackzBuilder
                     Entity = await PropSpawner.CreateProp((uint)Model, Vector3.Zero, Rotation, isPreview);
                     break;
                 case EntityType.Vehicle:
-                    var saveData = GetSavedSaveData();
                     var vehicle = await VehicleSpawner.CreateVehicle((uint)Model, Vector3.Zero, Rotation, isPreview);
                     if (vehicle == null)
                     {
                         Debug.WriteLine("<Attachment>.Spawn for Vehicle is null");
                     }
                     // TODO: Figure out why entity null
-                    if(saveData != null)
-                        VehicleManager.ApplyToVehicle(vehicle, saveData);
+                    if(_saveData != null)
+                        VehicleManager.ApplyToVehicle(vehicle, _saveData);
                     Entity = (Entity) vehicle;
                     break;
             }

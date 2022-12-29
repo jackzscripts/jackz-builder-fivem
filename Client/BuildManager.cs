@@ -55,7 +55,9 @@ namespace jackz_builder.Client
 
         public static bool DeleteBuild(string id)
         {
-            return builds.Remove(id);
+            var res = builds.Remove(id);
+            SaveBuilds();
+            return res;
         }
 
         public static async Task<Build> GetBuild(string id, bool isPreview)

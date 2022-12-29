@@ -6,15 +6,14 @@ using CitizenFX.Core;
 using CitizenFX.Core.Native;
 using jackz_builder.Client.JackzBuilder;
 using MenuAPI;
-using Newtonsoft.Json;
 using jackz_builder.Client.lib;
 
 namespace jackz_builder.Client
 {
     internal class PreviewData
     {
-        public Entity Entity;
-        public string Id;
+        public Entity? Entity;
+        public string? Id;
         public Vector3 Offset;
 
         private float heading;
@@ -44,9 +43,9 @@ namespace jackz_builder.Client
             
             this.meta = meta;
             this.OnMenuOpen += OnOpen;
-            AddMenuItem(new MenuItem("Spawn"), async (_menu) =>
+            AddMenuItem(new MenuItem("Spawn"), (_menu) =>
             {
-                await LoadData(false);
+                LoadData(false).Wait();
             });
             AddMenuItem(new MenuItem("Edit"), async (_menu) =>
             {
@@ -54,7 +53,18 @@ namespace jackz_builder.Client
                 CurrentBuildMenu.EditBuild(build);
             });
             AddMenuItem(new MenuItem("Upload") { Enabled = false });
-            AddMenuItem(new MenuItem("Delete") { Enabled = false });
+            AddMenuItem(new MenuItem("Delete"), async _ =>
+            {
+                if (BuildManager.DeleteBuild(meta.Id))
+                {
+                    this.CloseMenu();
+                    BuilderMain.SaveBuildMenu.RemoveMenuItem(this.SubmenuEntry);
+                    ClearMenuItems();
+                    await BaseScript.Delay(2);
+                    BuilderMain.SaveBuildMenu.OpenMenu();
+                    Util.Alert($"Build ~c~{meta.Id}~c~ has been deleted", null, "success");
+                }
+            });
         }
 
         private BuildMetaData meta = null;
@@ -110,7 +120,7 @@ namespace jackz_builder.Client
 
         // Build menus:
         private AdvMenu BuildMetaMenu;
-        private MenuItem SaveBuildMenu;
+        public static AdvMenu SaveBuildMenu;
         private AdvMenu EntitiesMenu;
         
         public static dynamic TNotify;
@@ -295,13 +305,13 @@ namespace jackz_builder.Client
 
         private void CreateSavedBuildsList()
         {
-            var submenu = menu.CreateAdvSubMenu("Saved Builds");
-            submenu.OnMenuOpen += _menu =>
+            SaveBuildMenu = menu.CreateAdvSubMenu("Saved Builds");
+            SaveBuildMenu.OnMenuOpen += _menu =>
             {
-                submenu.ClearMenuItems();
+                SaveBuildMenu.ClearMenuItems();
                 foreach (var meta in BuildManager.Builds)
                 {
-                    new EntryMenu(submenu, meta);
+                    new EntryMenu(SaveBuildMenu, meta);
                 }
             };
         }

@@ -79,8 +79,8 @@ namespace jackz_builder.Client.JackzBuilder
             if (Created != null)
             {
                 DateTime dtDateTime = new DateTime(1970, 1, 1, 0, 0, 0, 0, DateTimeKind.Utc);
-                dtDateTime = dtDateTime.AddMilliseconds(Created.Value).ToLocalTime();
-                lines.Add("Created: " + dtDateTime.ToString("yyyy/MM/dd h:mm:ss tt UTC"));
+                dtDateTime = dtDateTime.AddSeconds(Created.Value).ToLocalTime();
+                lines.Add("Created: " + dtDateTime.ToString("yyyy/M/d h:mm:ss tt UTC"));
             }
 
             if (Author != null)
@@ -139,7 +139,7 @@ namespace jackz_builder.Client.JackzBuilder
             get
             {
                 DateTime dtDateTime = new DateTime(1970, 1, 1, 0, 0, 0, 0, DateTimeKind.Utc);
-                dtDateTime = dtDateTime.AddMilliseconds(_created).ToLocalTime();
+                dtDateTime = dtDateTime.AddSeconds(_created).ToLocalTime();
                 return dtDateTime;
             }
             set
@@ -240,23 +240,22 @@ namespace jackz_builder.Client.JackzBuilder
         {
             JObject jo = JObject.FromObject(this);
             Debug.WriteLine("Exporting vehicles");
-            var vehicleAttachments = GetAttachments<VehicleAttachment>(EntityType.Vehicle);
+            var vehicleAttachments = GetAttachments(EntityType.Vehicle);
             jo.Add("vehicles", JToken.FromObject(vehicleAttachments));
             Debug.WriteLine("Exporting peds");
-            var pedAttachments = GetAttachments<Attachment>(EntityType.Ped);
+            var pedAttachments = GetAttachments(EntityType.Ped);
             jo.Add("peds", JToken.FromObject(pedAttachments));
             Debug.WriteLine("Exporting props");
-            var propAttachments = GetAttachments<Attachment>(EntityType.Prop);
+            var propAttachments = GetAttachments(EntityType.Prop);
             jo.Add("objects", JToken.FromObject(propAttachments));
-            
             var str = JsonConvert.SerializeObject(jo);
             Debug.WriteLine($"Build Export: \"{str}\"");
             return str;
         }
         
-        private List<T> GetAttachments<T>(EntityType type) where T : Attachment
+        private List<Attachment> GetAttachments(EntityType type)
         {
-            return (from attachment in Attachments.Values where attachment.Type == type select attachment as T).ToList();
+            return Attachments.Values.Where(attach => attach.Type == type).ToList();
         }
 
         /// <summary>

@@ -1,9 +1,9 @@
 using System;
 using System.Collections.Generic;
+using System.Diagnostics.CodeAnalysis;
 using System.Linq;
 using System.Threading.Tasks;
 using CitizenFX.Core;
-using CitizenFX.Core.Native;
 using jackz_builder.Client.lib;
 using Newtonsoft.Json;
 using Newtonsoft.Json.Linq;
@@ -46,11 +46,14 @@ namespace jackz_builder.Client.JackzBuilder
     {
         public string Id => $"{Author}/{Name}";
 
-        [JsonProperty("name")] private string _name;
+        [JsonProperty("name")] [SuppressMessage("ReSharper", "NotNullOrRequiredMemberIsNotInitialized")]
+        private string? _name;
         public string Name => _name ?? "Unnamed Build";
         [JsonProperty("created")] public int? Created;
-        [JsonProperty("version")] public string Version;
-        [JsonProperty("author")] private string _author;
+        [JsonProperty("version")] [SuppressMessage("ReSharper", "NotNullOrRequiredMemberIsNotInitialized")] 
+        public string? Version;
+        [JsonProperty("author")] [SuppressMessage("ReSharper", "NotNullOrRequiredMemberIsNotInitialized")] 
+        private string? _author;
         public string Author => _author ?? "Anonymous";
         public float? Rating;
 
@@ -64,14 +67,13 @@ namespace jackz_builder.Client.JackzBuilder
             var lines = new List<string>();
 
             var versionText = "Format Version: {Version} ";
-            var semver = new Semver(Version);
             var result = new Semver(Version).Compare(BuilderMain.BuilderVersion);
             if (result == SemverResult.SmallerThan)
-                versionText = $"(Older version, latest {BuilderMain.BuilderVersion}";
+                versionText += $"(Older version, latest {BuilderMain.BuilderVersion}";
             else if (result == SemverResult.GreaterThan)
-                versionText = $"(Unsupported version, latest {BuilderMain.BuilderVersion}";
+                versionText += $"(Unsupported version, latest {BuilderMain.BuilderVersion}";
             else
-                versionText = "(Latest)";
+                versionText += "(Latest)";
             lines.Add(versionText);
 
             if (Created != null)

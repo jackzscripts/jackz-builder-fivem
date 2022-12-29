@@ -6,21 +6,22 @@ This is still under development, and may be very buggy.
 ### Current Features
  * [x] Attaching props, vehicles, entities to a base entity
  * [x] Saving and spawning
+ * [x] Saving vehicle data (colors, mods, etc)
+ * [x] Editing a saved build
 
 ### Pending Features
 Checkmark indicates that the feature is in progress
 
- * [x] Editing a saved build
  * [ ] Downloading builds from cloud
  * [ ] Support particle fx
  * [ ] Allow parenting attachments to other attachments
  * [x] Support spawning build into a fixed world position
- * [ ] Test for compatibility with pre-existing stand version builds
+ * [ ] Test for compatibility with existing stand version builds
  * [ ] Support ped animations
- * [ ] Fix vehicle savedata (paint, mods, etc) not loading or possibly saving correctly
  * [ ] Allow changing blip
  * [ ] Local server-based cloud (not global cloud)
-
+ * [ ] Overlays (build info, attachment info, 'add to build')
+ * [ ] Free Edit
 
 # Editing & Building
 

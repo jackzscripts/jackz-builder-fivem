@@ -51,6 +51,10 @@ namespace jackz_builder.Client
             {
                 var build = await LoadData(false);
                 CurrentBuildMenu.EditBuild(build);
+                BuilderMain.Instance.ShowBuildMenu(-1);
+                CloseMenu();
+                await BaseScript.Delay(2);
+                BuilderMain.CurrentBuildMenu.OpenMenu();
             });
             AddMenuItem(new MenuItem("Upload") { Enabled = false });
             AddMenuItem(new MenuItem("Delete"), async _ =>
@@ -338,7 +342,7 @@ namespace jackz_builder.Client
             menuItems.Add(CreateVehicleMenu);
         }
 
-        private void ShowBuildMenu(int itemIndex = -1)
+        public void ShowBuildMenu(int itemIndex = -1)
         {
             Destroy();
             

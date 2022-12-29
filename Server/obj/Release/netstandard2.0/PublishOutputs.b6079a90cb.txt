@@ -1,4 +1,0 @@
-C:\Users\Jackz\AppData\Local\Temp\rider-publish17380577477381514954\jackz-builder.Server.net.dll
-C:\Users\Jackz\AppData\Local\Temp\rider-publish17380577477381514954\jackz-builder.Server.deps.json
-C:\Users\Jackz\AppData\Local\Temp\rider-publish17380577477381514954\jackz-builder.Server.net.pdb
-C:\Users\Jackz\AppData\Local\Temp\rider-publish17380577477381514954\CitizenFX.Core.Server.dll

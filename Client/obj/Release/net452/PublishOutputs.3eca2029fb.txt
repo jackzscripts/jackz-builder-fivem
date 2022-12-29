@@ -1,4 +1,0 @@
-C:\Users\Jackz\AppData\Local\Temp\rider-publish8111510099764776021\jackz-builder.Client.net.dll
-C:\Users\Jackz\AppData\Local\Temp\rider-publish8111510099764776021\CitizenFX.Core.Client.dll
-C:\Users\Jackz\AppData\Local\Temp\rider-publish8111510099764776021\MenuAPI.dll
-C:\Users\Jackz\AppData\Local\Temp\rider-publish8111510099764776021\Newtonsoft.Json.dll

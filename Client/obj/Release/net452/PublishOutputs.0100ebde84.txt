@@ -1,4 +1,0 @@
-S:\Jackz\Documents\Code\GTA\fivem\sandbox-test-2\sandbox2\jackz-builder\Client\bin\Release\net452\publish\jackz-builder.Client.net.dll
-S:\Jackz\Documents\Code\GTA\fivem\sandbox-test-2\sandbox2\jackz-builder\Client\bin\Release\net452\publish\CitizenFX.Core.Client.dll
-S:\Jackz\Documents\Code\GTA\fivem\sandbox-test-2\sandbox2\jackz-builder\Client\bin\Release\net452\publish\MenuAPI.dll
-S:\Jackz\Documents\Code\GTA\fivem\sandbox-test-2\sandbox2\jackz-builder\Client\bin\Release\net452\publish\Newtonsoft.Json.dll

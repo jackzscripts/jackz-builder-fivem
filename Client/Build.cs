@@ -127,7 +127,7 @@ namespace jackz_builder.Client.JackzBuilder
         }
 
         [JsonProperty("blipIcon")] public int BlipSprite { get; set; }
-        [JsonProperty("spawnLocation")] public SerializedVector3 SpawnLocation { get; set; } = null;
+        [JsonProperty("spawnLocation")] public SerializedVector3? SpawnLocation { get; set; } = null;
         [JsonProperty("spawnInBuild")] public bool SpawnInBuild { get; set; }
         [JsonProperty("created")] public long _created;
         [JsonProperty("version")] public string Version { get; private set; }

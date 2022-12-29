@@ -5,8 +5,9 @@ using System.Threading.Tasks;
 using CitizenFX.Core;
 using CitizenFX.Core.Native;
 using jackz_builder.Client.JackzBuilder;
-using MenuAPI;
 using jackz_builder.Client.lib;
+using jackz_builder.Client.submenus;
+using MenuAPI;
 
 namespace jackz_builder.Client
 {
@@ -31,80 +32,6 @@ namespace jackz_builder.Client
             lastTime = time;
         }
     }
-    internal class EntryMenu : AdvMenu
-    {
-        public EntryMenu(AdvMenu parent, BuildMetaData meta) : base("Saved Builds", meta.Id)
-        {
-            MenuController.AddSubmenu(parent, this);
-            SubmenuEntry = new MenuItem(meta.Id, meta.GetDescriptionText());
-            MenuController.BindMenuItem(parent, this, SubmenuEntry);
-            parent.AddMenuItem(SubmenuEntry);
-            SetParent(parent);
-            
-            this.meta = meta;
-            this.OnMenuOpen += OnOpen;
-            AddMenuItem(new MenuItem("Spawn"), (_menu) =>
-            {
-                LoadData(false).Wait();
-            });
-            AddMenuItem(new MenuItem("Edit"), async (_menu) =>
-            {
-                var build = await LoadData(false);
-                CurrentBuildMenu.EditBuild(build);
-                BuilderMain.Instance.ShowBuildMenu(-1);
-                CloseMenu();
-                await BaseScript.Delay(2);
-                BuilderMain.CurrentBuildMenu.OpenMenu();
-            });
-            AddMenuItem(new MenuItem("Upload") { Enabled = false });
-            AddMenuItem(new MenuItem("Delete"), async _ =>
-            {
-                if (BuildManager.DeleteBuild(meta.Id))
-                {
-                    this.CloseMenu();
-                    BuilderMain.SaveBuildMenu.RemoveMenuItem(this.SubmenuEntry);
-                    ClearMenuItems();
-                    await BaseScript.Delay(2);
-                    BuilderMain.SaveBuildMenu.OpenMenu();
-                    Util.Alert($"Build ~c~{meta.Id}~c~ has been deleted", null, "success");
-                }
-            });
-        }
-
-        private BuildMetaData meta = null;
-
-        private async void OnOpen(Menu menu1)
-        {
-            await LoadData(true);
-        }
-
-        private async Task<Build> LoadData(bool isPreview)
-        {
-            try
-            {
-                Debug.WriteLine($"Loading build data for {meta.Id}...");
-                Util.ShowBusySpinner($"Loading {meta.Id}");
-                return await BuildManager.GetBuild(meta.Id, isPreview);
-            }
-            catch (InvalidBuildData ex)
-            {
-                Debug.WriteLine($"Failed to load invalid build:\n\t{ex.Message}");
-                Util.Alert(ex.Message, "Invalid Build", "error", 10000);
-                GetMenuItems().Select(item => item.Enabled = false);
-            }
-            catch (Exception ex)
-            {
-                Debug.WriteLine($"Unknown error occurred while spawning build: {ex.Message}\n\t{ex.StackTrace}");
-                Util.Alert(ex.Message, "Build Spawn Error", "error", 10000);
-                GetMenuItems().Select(item => item.Enabled = false);
-            }
-            finally
-            {
-                Util.HideBusySpinner();
-            }
-            return null;
-        }
-    }
     public class BuilderMain : BaseScript
     {
         public const bool DebugActive = true;
@@ -126,6 +53,8 @@ namespace jackz_builder.Client
         private AdvMenu BuildMetaMenu;
         public static AdvMenu SaveBuildMenu;
         private AdvMenu EntitiesMenu;
+        private SavedBuildList SavedBuildList;
+        public static SettingsMenu Settings { get; private set; }
         
         public static dynamic TNotify;
 
@@ -243,7 +172,7 @@ namespace jackz_builder.Client
                 Util.HighlightPosition(HighlightedEntity.Position);
                 Util.DrawMarker(0, HighlightedEntity.Position, Color.White, false);
 
-                if (HighlightedEntity == CurrentBuildMenu.Build.Base.Entity)
+                if (Settings.ShowOverlay && HighlightedEntity == CurrentBuildMenu.Build.Base.Entity)
                 {
                     API.SetDrawOrigin(HighlightedEntity.Position.X, HighlightedEntity.Position.Y, HighlightedEntity.Position.Z, 0);
                     Util.DrawRect(Vector2.Zero, new Vector2(0.2f, 0.1f), new Color(0, 0, 0, 76));
@@ -279,7 +208,10 @@ namespace jackz_builder.Client
                 EditorActive = false;
             };
             MenuController.AddMenu(menu);
-            CreateSavedBuildsList();
+            Settings = new SettingsMenu(menu);
+
+            SavedBuildList = new SavedBuildList(menu, "Saved Builds", "View & Manage your saved builds");
+            SavedBuildList.SetBuilds(BuildManager.Builds.ToArray());
             
             ShowCreateMenus();
             if (DebugActive)
@@ -290,6 +222,7 @@ namespace jackz_builder.Client
 
         public void Destroy()
         {
+            Settings.Save();
             ClearPreview();
             foreach (var item in menuItems)
             {
@@ -307,18 +240,6 @@ namespace jackz_builder.Client
         public void OpenMenu() { menu.OpenMenu(); }
         public void CloseMenu() { menu.CloseMenu(); }
 
-        private void CreateSavedBuildsList()
-        {
-            SaveBuildMenu = menu.CreateAdvSubMenu("Saved Builds");
-            SaveBuildMenu.OnMenuOpen += _menu =>
-            {
-                SaveBuildMenu.ClearMenuItems();
-                foreach (var meta in BuildManager.Builds)
-                {
-                    new EntryMenu(SaveBuildMenu, meta);
-                }
-            };
-        }
 
         private void CreateNewVehicle(int index)
         {

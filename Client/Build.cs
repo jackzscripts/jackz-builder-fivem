@@ -57,7 +57,7 @@ namespace jackz_builder.Client.JackzBuilder
         public string Author => _author ?? "Anonymous";
         public float? Rating;
 
-        public string GetDescriptionText()
+        public string GetDescriptionText(bool showRatings)
         {
             if (Version == null)
             {
@@ -88,15 +88,17 @@ namespace jackz_builder.Client.JackzBuilder
                 lines.Add($"Build Author: {Author}");
             }
 
-            if (Rating > 0.0)
+            if (showRatings)
             {
-                lines.Add($"Rating: {Rating} / 5 stars");
+                if (Rating > 0.0)
+                {
+                    lines.Add($"Rating: {Rating} / 5 stars");
+                }
+                else
+                {
+                    lines.Add("No user ratings");
+                }     
             }
-            else
-            {
-                lines.Add("No user ratings");
-            }
-
             return string.Join("\n", lines);
         }
     }

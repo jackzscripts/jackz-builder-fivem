@@ -1,3 +1,4 @@
+using CitizenFX.Core;
 using jackz_builder.Client.lib;
 using MenuAPI;
 
@@ -24,7 +25,11 @@ namespace jackz_builder.Client.JackzBuilder
                     active) =>
                 {
                     BuilderMain.FreeEdit = active;
-                    
+                    if (!active)
+                    {
+                        Game.PlayerPed.IsPositionFrozen = false;
+                        CurrentBuildMenu.Build.Base.Entity.IsPositionFrozen = false;
+                    }
                 });
             edit.Checked = BuilderMain.FreeEdit;
 

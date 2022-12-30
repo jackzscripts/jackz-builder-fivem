@@ -195,24 +195,6 @@ namespace jackz_builder.Client.JackzBuilder
         public Build()
         {
         }
-        
-        /// <summary>
-        /// Computes the size of the build, taking into account the dimensions of all its attachments.
-        /// This helps prevent the previews from being close for large builds and too far for small builds
-        /// </summary>
-        /// <returns>The radius size (l,w) as X and the height as Y</returns>
-        public Vector2 ComputeSize()
-        {
-            float rSize = 0f;
-            float hSize = 0f;
-            Base.ComputeSize(ref rSize, ref hSize);
-            foreach (var attachment in Attachments.Values)
-            {
-                attachment.ComputeSize(ref rSize, ref hSize);
-            }
-
-            return new Vector2(rSize + 10f, hSize);
-        }
 
         // Should only import metadata
         public static BuildMetaData ImportMeta(string saveData)
@@ -236,6 +218,24 @@ namespace jackz_builder.Client.JackzBuilder
             await build.Spawn(isPreview, obj);
 
             return build;
+        }
+        
+        /// <summary>
+        /// Computes the size of the build, taking into account the dimensions of all its attachments.
+        /// This helps prevent the previews from being close for large builds and too far for small builds
+        /// </summary>
+        /// <returns>The radius size (l,w) as X and the height as Y</returns>
+        public Vector2 ComputeSize()
+        {
+            float rSize = 0f;
+            float hSize = 0f;
+            Base.ComputeSize(ref rSize, ref hSize);
+            foreach (var attachment in Attachments.Values)
+            {
+                attachment.ComputeSize(ref rSize, ref hSize);
+            }
+
+            return new Vector2(rSize + 10f, hSize);
         }
 
         public string Export()
@@ -316,7 +316,7 @@ namespace jackz_builder.Client.JackzBuilder
                 {
                     var attach = jToken.ToObject<T>();
                     Debug.WriteLine($"Spawning attachment {attach.Id} of {typeof(T)}");
-                    attach.ParentEntity = Base.Entity;
+                    attach.SetParent(Base);
                     var entity = await attach.Spawn(isPreview);
                     Attachments.Add(entity, attach);
                 }
@@ -351,6 +351,18 @@ namespace jackz_builder.Client.JackzBuilder
             {
                 blip = Util.CreateBlipForEntity(Base.Entity, (BlipSprite)BlipSprite, Name);
             }
+        }
+
+        /// <summary>
+        /// Finds an attachment with the ID.
+        /// </summary>
+        /// <param name="id"></param>
+        /// <returns>The attachment or null if none found</returns>
+        public Attachment GetAttachment(int id)
+        {
+            if (id == -1) return Base;
+            return (from kv in Attachments where kv.Value.Id == id select kv.Value)
+                .FirstOrDefault();
         }
 
         public override bool Equals(Object obj)

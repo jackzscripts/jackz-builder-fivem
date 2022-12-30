@@ -16,7 +16,28 @@ namespace jackz_builder.Client.JackzBuilder
     public class Attachment
     {
         public AdvMenu Root;
-        public Entity? ParentEntity;
+        private Entity _parentEntity;
+
+        public Entity ParentEntity { get; }
+        /// <summary>
+        /// Sets the parent that this will be attached to, or null for the world
+        /// </summary>
+        /// <param name="attachment">null for world</param>
+        public void SetParent(Attachment attachment)
+        {
+            if (attachment == null)
+            {
+                // Set parent to be the world
+                _parentEntity = null;
+                ParentId = -1;
+            }
+            else
+            {
+                _parentEntity = attachment.Entity;
+                ParentId = attachment.Entity == CurrentBuildMenu.Build.Base.Entity ? null : attachment.Id;
+            }
+            
+        }
         private Entity? _entity;
 
         public Entity Entity
@@ -43,6 +64,8 @@ namespace jackz_builder.Client.JackzBuilder
         /// </summary>
         public bool IsAttachedToWorld => ParentEntity == null;
 
+
+        [JsonProperty("parent")] public int? ParentId;
         [JsonProperty("id")] public int Id;
         public EntityType Type { get; private set; }
         [JsonProperty("type")] private string _type
@@ -339,11 +362,7 @@ namespace jackz_builder.Client.JackzBuilder
             #endregion
 
             Root.AddDivider("Misc");
-            Root.AddMenuItem(new MenuItem("Attach To:")
-            {
-                Enabled = false,
-                Label = "Base"
-            });
+            new AttachToMenu(Root, this);
             RenameMenu = Root.AddMenuItem(new MenuItem("Rename")
             {
                 Label = Name
@@ -484,5 +503,19 @@ namespace jackz_builder.Client.JackzBuilder
             Root.ClearMenuItems();
             // Don't clear highlighted handle: AttachmentsMenu will switch it when it's returned to
         }
+        
+        public override bool Equals(Object obj)
+        {
+            if ((obj == null) || this.GetType() != obj.GetType())
+            {
+                return false;
+            }
+            else
+            {
+                var _attach = (Attachment)obj;
+                return _attach.Entity == Entity; // or maybe id == id
+            }
+        }
+
     }
 }

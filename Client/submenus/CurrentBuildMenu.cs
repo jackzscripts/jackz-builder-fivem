@@ -1,10 +1,8 @@
-using System.Collections.Generic;
 using CitizenFX.Core;
 using CitizenFX.Core.Native;
 using jackz_builder.Client.JackzBuilder.Spawners;
 using jackz_builder.Client.lib;
 using MenuAPI;
-using Newtonsoft.Json;
 using static jackz_builder.Client.BuilderMain;
 
 namespace jackz_builder.Client.JackzBuilder

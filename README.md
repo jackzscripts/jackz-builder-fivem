@@ -14,13 +14,13 @@ Checkmark indicates that the feature is in progress
 
  * [ ] Downloading builds from cloud
  * [ ] Support particle fx
- * [ ] Allow parenting attachments to other attachments
+ * [x] Allow parenting attachments to other attachments
  * [x] Support spawning build into a fixed world position
  * [ ] Test for compatibility with existing stand version builds
  * [ ] Support ped animations
  * [ ] Allow changing blip
  * [ ] Local server-based cloud (not global cloud)
- * [ ] Overlays (build info, attachment info, 'add to build')
+ * [x] Overlays (build info, attachment info, 'add to build')
  * [ ] Free Edit
 
 # Editing & Building

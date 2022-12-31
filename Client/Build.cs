@@ -130,8 +130,24 @@ namespace jackz_builder.Client.JackzBuilder
             set => _author = value;
         }
 
-        [JsonProperty("blipIcon")] public int BlipSprite { get; set; }
-        [JsonProperty("spawnLocation")] public SerializedVector3? SpawnLocation { get; set; } = null;
+        [JsonProperty("blipIcon")] public int _blipSprite;
+        public int BlipSprite
+        {
+            get => _blipSprite;
+            set
+            {
+                _blipSprite = value;
+                CreateBlip();
+            }
+        }
+
+        [JsonProperty("spawnLocation")] private SerializedVector3 _spawnLocation;
+
+        public Vector3? SpawnLocation
+        {
+            get => _spawnLocation != null ? new Vector3(_spawnLocation.X, _spawnLocation.Y, _spawnLocation.Z) : null;
+            set => _spawnLocation = value.HasValue ? new SerializedVector3(value.Value.X, value.Value.Y, value.Value.Z) : null;
+        }
         [JsonProperty("spawnInBuild")] public bool SpawnInBuild { get; set; }
         [JsonProperty("created")] public long _created;
         [JsonProperty("version")] public string Version { get; private set; }
@@ -162,7 +178,7 @@ namespace jackz_builder.Client.JackzBuilder
         // Increment id AFTER return
         public int NextId => _nextId++;
 
-        private bool _showBlip;
+        private bool _showBlip = true;
 
         /// <summary>
         /// Should a blip be shown for the base entity of this build?

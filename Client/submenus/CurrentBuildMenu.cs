@@ -1,24 +1,21 @@
+using System;
+using System.Collections.Generic;
+using System.Linq;
 using CitizenFX.Core;
 using CitizenFX.Core.Native;
 using jackz_builder.Client.JackzBuilder.Spawners;
 using jackz_builder.Client.lib;
+using jackz_builder.Client.submenus;
 using MenuAPI;
 using static jackz_builder.Client.BuilderMain;
 
 namespace jackz_builder.Client.JackzBuilder
 {
-    internal class AddMenuMenus
-    {
-        public AdvMenu ParentList;
-        
-        public AdvMenu CuratedList;
-        public AdvMenu RecentsList;
-        public AdvMenu FavoritesList;
-        public AdvMenu BrowseList;
-    }
     public class CurrentBuildMenu : AdvMenu
     {
         public static Build Build;
+        private List<string> blipNames;
+        private List<BlipSprite> blipSprites;
         public AdvMenu BuildMetaMenu { get; private set; }
             #region Meta Menus
             public MenuItem SaveBuildItem { get; private set; }
@@ -48,7 +45,7 @@ namespace jackz_builder.Client.JackzBuilder
             AddPedMenu = this.CreateAdvSubMenu("Add Ped");
             BaseSpawner.PedSpawner = new PedSpawner(AddPedMenu);
 
-            OnMenuOpen += menu =>
+            OnMenuOpen += _ =>
             {
                 EditorActive = true;
                 HighlightedEntity = Build.Base.Entity;
@@ -88,11 +85,21 @@ namespace jackz_builder.Client.JackzBuilder
 
         private void SetupBuildMetaMenu(AdvMenu parent)
         {
+            if (blipNames == null)
+            {
+                blipNames = new List<string>();
+                blipSprites = new List<BlipSprite>();
+                foreach(BlipSprite blip in Enum.GetValues(typeof(BlipSprite)))
+                {
+                    blipSprites.Add(blip);
+                    blipNames.Add(Util.EnumToDisplay(blip));
+                }
+            }
             BuildMetaMenu = parent.CreateAdvSubMenu("Build",
                 "Save, upload, change author, or clear the build");
             // Items:
-            SaveBuildItem = BuildMetaMenu.AddMenuItem(new MenuItem("Save Build", "Enter a name to save the build as"),
-                async itemIndex =>
+            SaveBuildItem = BuildMetaMenu.AddMenuItem(new MenuItem("Save Build", "Enter a name to save the build as"), 
+                itemIndex =>
                 {
                     if (!Build.HasName)
                     {
@@ -120,6 +127,27 @@ namespace jackz_builder.Client.JackzBuilder
                 });
             BuildAuthorItem.Label = Build.Author;
 
+            BuildMetaMenu.AddDivider("Settings");
+
+            new CoordinatePicker(BuildMetaMenu, "Spawn Location", "Choose where the build should spawn",
+                (vector3, enabled) =>
+                {
+                    Debug.WriteLine($"Spawn location callback. Pos: {vector3} Enabled={enabled}");
+                    if (enabled)
+                    {
+                        Util.Alert($"Spawn location set to X:{vector3.X:F2} Y:{vector3.Y:F2} Z:{vector3.Z:F2}", null, "success");
+                    }
+                    Build.SpawnLocation = enabled ? vector3 : null;
+                }, Build.SpawnLocation, true);
+            {
+                
+            }
+
+            var blipIndex = blipSprites.Cast<int>().FirstOrDefault(sprite => Build.BlipSprite == sprite);
+            BuildMetaMenu.AddMenuItem(new MenuListItem("Blip", blipNames, blipIndex, "Choose the map icon"));
+            BuildMetaMenu.OnListIndexChange += onListItemChange;
+            
+
             BuildMetaMenu.AddDivider("Danger Zone", MenuItem.Icon.WARNING);
             BuildMetaMenu.AddMenuItem(
                 new MenuItem("Remove All Attachments",
@@ -144,7 +172,6 @@ namespace jackz_builder.Client.JackzBuilder
                 {
                     bool result = await Util.ShowConfirmDialog("Delete Confirmation",
                         "Are you sure you want to delete this build? All attached entities will also be deleted.");
-                    Debug.WriteLine($"DONE DIALOG . RESULT IS: {result}");
                     if (!result)
                         return;
                     AttachmentsMenu.ClearMenuItems();
@@ -157,6 +184,11 @@ namespace jackz_builder.Client.JackzBuilder
                     Instance.ShowCreateMenus();
                     Instance.OpenMenu();
                 });
+        }
+
+        private void onListItemChange(Menu menu, MenuListItem menuItem, int oldselectionindex, int newSelectionIndex, int itemindex)
+        {
+            Build.BlipSprite = (int)blipSprites[newSelectionIndex];
         }
 
         public static void EditBuild(Build build)

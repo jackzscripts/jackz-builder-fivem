@@ -1,3 +1,4 @@
+using CitizenFX.Core;
 using CitizenFX.Core.Native;
 using jackz_builder.Client.lib;
 using MenuAPI;
@@ -5,6 +6,7 @@ using Newtonsoft.Json;
 
 namespace jackz_builder.Client.submenus
 {
+    [JsonObject(MemberSerialization.OptIn)]
     public class SettingsMenu
     {
         [JsonProperty("spawnInVehicle")] private bool _spawnInVehicle = true;
@@ -96,6 +98,7 @@ namespace jackz_builder.Client.submenus
             var data = API.GetResourceKvpString(KvpSaveName);
             if (data != null)
             {
+                Debug.WriteLine($"Loading saved settings:\n{data}");
                 JsonConvert.PopulateObject(data, this);
             }
         }

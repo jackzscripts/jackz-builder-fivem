@@ -236,6 +236,17 @@ namespace jackz_builder.Client.lib
             }
             return new string(newStr.ToArray());
         }
+        
+        /// <summary>
+        /// Converts "EnumName" to "Enum Name" by calling <see cref="SplitPascalCase"/> with the enum.ToString()
+        /// </summary>
+        /// <param name="en">The enum</param>
+        /// <returns></returns>
+        public static string EnumToDisplay(Enum en)
+        {
+            return SplitPascalCase(en.ToString());
+        }
+        
         public static Vehicle getVehicle(bool includeLast = true)
         {
             var vehicle = Game.PlayerPed.CurrentVehicle;

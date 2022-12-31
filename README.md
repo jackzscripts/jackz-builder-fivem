@@ -8,6 +8,8 @@ This is still under development, and may be very buggy.
  * [x] Saving and spawning
  * [x] Saving vehicle data (colors, mods, etc)
  * [x] Editing a saved build
+ * [x] Allow changing blip
+ * [x] Support spawning build into a fixed world position
 
 ### Pending Features
 Checkmark indicates that the feature is in progress
@@ -15,10 +17,8 @@ Checkmark indicates that the feature is in progress
  * [ ] Downloading builds from cloud
  * [ ] Support particle fx
  * [x] Allow parenting attachments to other attachments
- * [x] Support spawning build into a fixed world position
  * [ ] Test for compatibility with existing stand version builds
  * [ ] Support ped animations
- * [ ] Allow changing blip
  * [ ] Local server-based cloud (not global cloud)
  * [x] Overlays (build info, attachment info, 'add to build')
  * [ ] Free Edit

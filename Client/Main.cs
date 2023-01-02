@@ -35,8 +35,8 @@ namespace jackz_builder.Client
     public class BuilderMain : BaseScript
     {
         public const bool DebugActive = true;
-        public const string BuilderVersion = "1.6.0";
-        public const string FormatVersion = "Jackz Builder Fivem " + BuilderVersion;
+        public static readonly Semver BuilderVersion = new Semver("1.6.0");
+        public const string FormatPrefix = "Jackz Builder Fivem ";
         
         private AdvMenu menu;
         private List<AdvMenu> submenus = new List<AdvMenu>();
@@ -274,11 +274,6 @@ namespace jackz_builder.Client
                     "Will delete your current build"),
                 ShowCreateMenus);
             menuItems.Add(StartNewBuildMenu);
-        }
-
-        public void AddAttachment(Attachment attachment)
-        {
-            CurrentBuildMenu.AddAttachment(attachment);
         }
         
         [Command("jvb")]

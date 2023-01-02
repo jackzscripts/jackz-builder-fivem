@@ -176,9 +176,8 @@ namespace jackz_builder.Client.lib
         public static async Task<string?> GetUserInput(string windowTitle, string defaultText, int maxInputLength)
         {
             // Create the window title string.
-            var spacer = "\t";
             AddTextEntry($"{GetCurrentResourceName().ToUpper()}_WINDOW_TITLE",
-                $"{windowTitle ?? "Enter"}:{spacer}(MAX {maxInputLength} Characters)");
+                $"{windowTitle ?? "Enter"}:\t(MAX {maxInputLength} Characters)");
 
             // Display the input box.
             DisplayOnscreenKeyboard(1, $"{GetCurrentResourceName().ToUpper()}_WINDOW_TITLE", "", defaultText ?? "", "",

@@ -51,7 +51,7 @@ namespace jackz_builder.Client.JackzBuilder
         public string Name => _name ?? "Unnamed Build";
         [JsonProperty("created")] public int? Created;
         [JsonProperty("version")] [SuppressMessage("ReSharper", "NotNullOrRequiredMemberIsNotInitialized")] 
-        public string? Version;
+        public string Version;
         [JsonProperty("author")] [SuppressMessage("ReSharper", "NotNullOrRequiredMemberIsNotInitialized")] 
         private string? _author;
         public string Author => _author ?? "Anonymous";
@@ -67,14 +67,19 @@ namespace jackz_builder.Client.JackzBuilder
             var lines = new List<string>();
 
             var versionText = $"Format Version: {Version} ";
-            var result = new Semver(Version).Compare(BuilderMain.BuilderVersion);
-            if (result == SemverResult.SmallerThan)
-                versionText += $"(Older version, latest {BuilderMain.BuilderVersion}";
-            else if (result == SemverResult.GreaterThan)
-                versionText += $"(Unsupported version, latest {BuilderMain.BuilderVersion}";
-            else
-                versionText += "(Latest)";
-            lines.Add(versionText);
+            if (Version != null)
+            {
+                var version = new Semver(Version.Split(' ').Last());
+                var result = version.Compare(BuilderMain.BuilderVersion);
+                if (result == SemverResult.SmallerThan)
+                    versionText += $"(Older version, latest {BuilderMain.BuilderVersion}";
+                else if (result == SemverResult.GreaterThan)
+                    versionText += $"(Unsupported version, latest {BuilderMain.BuilderVersion}";
+                else
+                    versionText += "(Latest)";
+                lines.Add(versionText);
+            }
+            
 
             if (Created != null)
             {
@@ -150,7 +155,7 @@ namespace jackz_builder.Client.JackzBuilder
         }
         [JsonProperty("spawnInBuild")] public bool SpawnInBuild { get; set; }
         [JsonProperty("created")] public long _created;
-        [JsonProperty("version")] public string Version { get; private set; }
+        public Semver Version;
 
         public DateTimeOffset Created
         {
@@ -231,6 +236,11 @@ namespace jackz_builder.Client.JackzBuilder
             
             var build = obj.ToObject<Build>();
 
+            if (obj.ContainsKey("version"))
+            {
+                build.Version = new Semver(obj["version"].Value<string>().Split(' ').Last());
+            }
+
             await build.Spawn(isPreview, obj);
 
             return build;
@@ -268,6 +278,7 @@ namespace jackz_builder.Client.JackzBuilder
             jo.Add("objects", JToken.FromObject(propAttachments));
             var str = JsonConvert.SerializeObject(jo);
             Debug.WriteLine($"Build Export: \"{str}\"");
+            jo.Add("version", BuilderMain.FormatPrefix + Version);
             return str;
         }
         

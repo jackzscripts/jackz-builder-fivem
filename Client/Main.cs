@@ -32,12 +32,22 @@ namespace jackz_builder.Client
             lastTime = time;
         }
     }
+
     public class BuilderMain : BaseScript
     {
         public const bool DebugActive = true;
         public static readonly Semver BuilderVersion = new Semver("1.6.0");
-        public const string FormatPrefix = "Jackz Builder Fivem ";
-        
+        public const string FormatPrefix = "Jackz Builder: Fivem ";
+        private static readonly string[] FreeEditInstructions = {
+            "~INPUT_VEH_FLY_THROTTLE_UP~/~INPUT_VEH_FLY_THROTTLE_DOWN~ = Forward/Backwards",
+            "~INPUT_VEH_FLY_YAW_LEFT~/~INPUT_VEH_FLY_YAW_RIGHT~ = Left/Right",
+            "~INPUT_VEH_CINEMATIC_UP_ONLY~/~INPUT_VEH_CINEMATIC_DOWN_ONLY~ = Up/Down",
+            "~INPUT_VEH_FLY_ROLL_LEFT_ONLY~/~INPUT_VEH_FLY_ROLL_RIGHT_ONLY~ = Rotate Left/Right",
+            "~INPUT_VEH_FLY_PITCH_UP_ONLY~/~INPUT_VEH_FLY_PITCH_DOWN_ONLY~ = Rotate Up/Down",
+            "~INPUT_VEH_FLY_SELECT_TARGET_LEFT~/~INPUT_VEH_FLY_SELECT_TARGET_RIGHT~ = Roll Sideways",
+            "Hold ~INPUT_SPRINT~/~INPUT_DUCK~ = Speed Up/Slow Down"
+        };
+
         private AdvMenu menu;
         private List<AdvMenu> submenus = new List<AdvMenu>();
         private List<MenuItem> menuItems = new List<MenuItem>();
@@ -55,11 +65,12 @@ namespace jackz_builder.Client
         private AdvMenu EntitiesMenu;
         private SavedBuildList SavedBuildList;
         public static SettingsMenu Settings { get; private set; }
-        
+
         public static dynamic TNotify;
 
 
         public static BuilderMain Instance { get; private set; }
+
         /// <summary>
         /// The currently highlighted entity
         /// </summary>
@@ -75,10 +86,20 @@ namespace jackz_builder.Client
         /// </summary>
         public static float EditorSensitivity = 10f;
 
+        private static Entity _freeEditEntity = null;
+
         /// <summary>
-        /// Determines if Free Edit (WASD, Numpad controls) is active
+        /// If non null, free edit (WASD, Numpad controls) is active for entity
         /// </summary>
-        public static bool FreeEdit = false;
+        public static Entity FreeEdit
+        {
+            get => _freeEditEntity;
+            set
+            {
+                _freeEditEntity = value;
+                showFreeEditInstructions();
+            }
+        }
 
         /// <summary>
         /// The current preview entity
@@ -144,13 +165,26 @@ namespace jackz_builder.Client
                             subEntity.Delete();
                         }
                     }
+
                     if (entity.IsAttachedTo(parent))
                     {
                         entity.Delete();
                     }
                 }
             }
-        } 
+        }
+        
+        private static void showFreeEditInstructions()
+        {
+            API.BeginTextCommandDisplayHelp("CELL_EMAIL_BCON");
+
+            foreach (string s in FreeEditInstructions)
+            {
+                API.AddTextComponentSubstringPlayerName(s);
+            }
+
+            API.EndTextCommandDisplayHelp(0, false, true, 5000);
+        }
         
         [EventHandler("onResourceStop")]
         private void onResourceStop(string resource)

@@ -303,6 +303,12 @@ namespace jackz_builder.Client.JackzBuilder
         private void OnMenuOpen(Menu menu)
         {
             BuilderMain.HighlightedEntity = Entity;
+            Root.AddMenuItem(
+                new MenuItem("Free Edit", "Allows you to move and rotate the entity using WASD and numpad"),
+                index =>
+                {
+                    BuilderMain.FreeEdit = Entity;
+                });
             #region Position
             if (Entity != CurrentBuildMenu.Build.Base.Entity)
             {

@@ -16,6 +16,7 @@
       <PackageReference Include="ScaleformUI" Version="5.3.5" />
     </ItemGroup>
     <ItemGroup>
+      <Folder Include="data\" />
       <Folder Include="Menu\EditEntity\" />
     </ItemGroup>
 </Project>

@@ -1,8 +1,10 @@
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading;
 using System.Threading.Tasks;
 using CitizenFX.Core;
+using CitizenFX.Core.Native;
 using ScaleformUI.Elements;
 using ScaleformUI.Menu;
 using ScaleformUI.Scaleforms;
@@ -47,7 +49,21 @@ namespace test_project.Client.Menu
         public PropSpawnerMenu() : base("Props", BuilderUtil.GetBreadcrumbs("Spawner", "Props"), "", ClientMain.MenuPosition)
         {
             BuilderListMenu<string> curated = new BuilderListMenu<string>(CuratedProps, "Curated Props", "Curated Props", "", ClientMain.MenuPosition);
-            curated.OnItemSelected += async (sender, index, item) =>
+            _setupList(curated);
+            AddChildMenu(curated);
+            
+            AddChildMenu(new BuilderListMenu<string>(new List<string>(), "Favorites", "Favorites", "", ClientMain.MenuPosition));
+            BuilderDynamicListMenu<string> browseList =
+                new BuilderDynamicListMenu<string>("Browse", "Browse", "", ClientMain.MenuPosition, GetPropList);
+            _setupList(browseList);
+            AddChildMenu(browseList);
+
+            // TODO: on menu open, add drag mode 
+        }
+
+        private void _setupList(BuilderBaseListMenu<string> listMenu)
+        {
+            listMenu.OnItemSelected += async (sender, index, item) =>
             {
                 using var token = new CancellationTokenSource();
                 uint? model = await ClientMain.Builder.RequestModel(item, token.Token);
@@ -61,21 +77,27 @@ namespace test_project.Client.Menu
 
                 ClientMain.Builder.ClearPreview();
             };
-            curated.OnItemHovered += (menu, index, item) =>
+            listMenu.OnItemHovered += (menu, index, item) =>
             {
-                PreviewItem(curated);
+                PreviewItem(listMenu);
             };
-            curated.OnMenuClose += menu =>
+            listMenu.OnMenuClose += menu =>
             {
                 ClientMain.Builder.ClearPreview();
             };
-            AddChildMenu(curated);
-            AddChildMenu(new BuilderListMenu<string>(new List<string>(), "Favorites", "Favorites", "", ClientMain.MenuPosition));
-            
-            // TODO: on menu open, add drag mode 
+        }
+        
+        private static Task<string[]> GetPropList(object sender)
+        {
+            var content = API.LoadResourceFile(API.GetCurrentResourceName(), "data/objects.txt");
+            return Task.FromResult(content.Split(
+                new string[] { "\r\n", "\r", "\n" },
+                StringSplitOptions.None
+            ));
+
         }
 
-        private async void PreviewItem(BuilderListMenu<string> menu)
+        private async void PreviewItem(BuilderBaseListMenu<string> menu)
         {
             var item = menu.SelectedMenuItem;
             // Compute some metadata if we haven't already:

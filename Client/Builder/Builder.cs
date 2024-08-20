@@ -4,6 +4,7 @@ using System.Threading;
 using System.Threading.Tasks;
 using CitizenFX.Core;
 using cruise_control.Client;
+using Newtonsoft.Json;
 
 namespace test_project.Client
 {
@@ -33,8 +34,12 @@ namespace test_project.Client
                 return _entities.FindAll(entity => entity.Type == BuilderEntity.EntityType.Ped);
             }
         }
+
+        private int _nextId = 0;
         
+        [JsonProperty("name")]
         private string Name = "Untitled Build";
+        [JsonProperty("author")]
         private string Author;
 
         private BuilderEntity EditedEntity;
@@ -42,6 +47,12 @@ namespace test_project.Client
         private string _previewName;
 
         public Entity PreviewEntityRef => _previewEntity;
+
+        public int GetNextId()
+        {
+            _nextId++;
+            return _nextId;
+        }
         
         public async Task<uint?> RequestModel(string modelId, CancellationToken token)
         {
@@ -108,6 +119,7 @@ namespace test_project.Client
         {
             if (_previewEntity != null)
             {
+                BuilderUtil.RemoveAllAttachments(_previewEntity);
                 _previewEntity.Delete();
             }
 

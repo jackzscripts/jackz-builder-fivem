@@ -3,6 +3,7 @@ using CitizenFX.Core;
 using ScaleformUI.Menu;
 using test_project.Client.MenuAPI;
 using CitizenFX.Core.Native;
+using Newtonsoft.Json;
 using test_project.Client.ExtensionMethods;
 
 namespace test_project.Client
@@ -20,10 +21,15 @@ namespace test_project.Client
             Ped
         }
 
+        [JsonProperty("id")] public int Id { get; }
+        
+        [JsonProperty("offset")]
         public Vector3 Offset;
-
+        
+        [JsonProperty("parentId")]
+        public int? ParentId => ParentEntity?.Id; 
         public BuilderEntity ParentEntity = null;
-
+        
         public EntityType Type = EntityType.Entity;
         public Entity Entity { get; private set; }
         public MenuAPI.BuilderMenu Menu { get; private set; }
@@ -31,6 +37,7 @@ namespace test_project.Client
         
         public BuilderEntity(Entity entity, string name = "")
         {
+            Id = ClientMain.Builder.GetNextId();
             Offset = entity.Position.Clone();
             Entity = entity;
             name = string.IsNullOrEmpty(name) ? entity.Handle.ToString() : name;
@@ -80,6 +87,8 @@ namespace test_project.Client
                 Entity.Rotation = value;
                 Attach();
             };
+            
+            
         }
 
         protected virtual void PopulateItems()

@@ -3,11 +3,9 @@ using System.Collections.Generic;
 using System.Threading;
 using System.Threading.Tasks;
 using CitizenFX.Core;
-using CitizenFX.Core.Native;
-using cruise_control.Client;
 using Newtonsoft.Json;
 
-namespace test_project.Client
+namespace jackz_builder.Client.Builder
 {
     public class Builder
     {

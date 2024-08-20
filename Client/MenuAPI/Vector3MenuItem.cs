@@ -1,8 +1,6 @@
-using System;
 using CitizenFX.Core;
-using ScaleformUI.Menu;
 
-namespace test_project.Client.MenuAPI
+namespace jackz_builder.Client.MenuAPI
 {
     public class Vector3MenuItem
     {

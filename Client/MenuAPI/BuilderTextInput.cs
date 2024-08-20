@@ -1,7 +1,4 @@
-using CitizenFX.Core.Native;
-using ScaleformUI.Menu;
-
-namespace test_project.Client.MenuAPI
+namespace jackz_builder.Client.MenuAPI
 {
     public class BuilderTextInput : BuilderMenuItem
     {

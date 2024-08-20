@@ -1,9 +1,8 @@
-using Mono.CSharp;
-using ScaleformUI.Elements;
+using jackz_builder.Client.Builder;
+using jackz_builder.Client.MenuAPI;
 using ScaleformUI.Menu;
-using test_project.Client.MenuAPI;
 
-namespace test_project.Client.Menu
+namespace jackz_builder.Client.Menu
 {
     public class EntityListMenu : MenuAPI.BuilderMenu
     {

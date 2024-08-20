@@ -1,7 +1,6 @@
-using System.Linq;
 using CitizenFX.Core;
 
-namespace test_project.Client
+namespace jackz_builder.Client.Builder
 {
     public static class BuilderUtil
     {

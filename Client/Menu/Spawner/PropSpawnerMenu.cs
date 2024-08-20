@@ -1,17 +1,13 @@
 using System;
 using System.Collections.Generic;
-using System.Linq;
 using System.Threading;
 using System.Threading.Tasks;
 using CitizenFX.Core;
 using CitizenFX.Core.Native;
-using ScaleformUI.Elements;
-using ScaleformUI.Menu;
-using ScaleformUI.Scaleforms;
-using test_project.Client.ExtensionMethods;
-using test_project.Client.MenuAPI;
+using jackz_builder.Client.Builder;
+using jackz_builder.Client.MenuAPI;
 
-namespace test_project.Client.Menu
+namespace jackz_builder.Client.Menu.Spawner
 {
     public class PropSpawnerMenu : MenuAPI.BuilderMenu
     {

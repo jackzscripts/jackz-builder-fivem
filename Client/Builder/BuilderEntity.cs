@@ -1,12 +1,11 @@
-using System;
 using CitizenFX.Core;
-using ScaleformUI.Menu;
-using test_project.Client.MenuAPI;
 using CitizenFX.Core.Native;
+using jackz_builder.Client.ExtensionMethods;
+using jackz_builder.Client.MenuAPI;
 using Newtonsoft.Json;
-using test_project.Client.ExtensionMethods;
+using ScaleformUI.Menu;
 
-namespace test_project.Client
+namespace jackz_builder.Client.Builder
 {
     public class BuilderEntity
     {

@@ -1,9 +1,7 @@
-using System;
 using System.Drawing;
-using System.Reflection;
 using ScaleformUI.Menu;
 
-namespace test_project.Client.Menu
+namespace jackz_builder.Client.Menu
 {
     public class MainMenu : MenuAPI.BuilderMenu
     {

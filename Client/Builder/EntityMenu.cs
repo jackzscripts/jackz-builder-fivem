@@ -1,6 +1,6 @@
-using test_project.Client.MenuAPI;
+using jackz_builder.Client.MenuAPI;
 
-namespace test_project.Client.Menu
+namespace jackz_builder.Client.Builder
 {
     public abstract class EntityMenu : MenuAPI.BuilderMenu
     {

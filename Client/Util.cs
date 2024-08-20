@@ -1,13 +1,11 @@
 using System;
 using System.Collections.Generic;
-using System.Threading.Tasks;
 using CitizenFX.Core;
 using CitizenFX.Core.Native;
-using Mono.CompilerServices.SymbolWriter;
-using test_project.Client.ExtensionMethods;
+using jackz_builder.Client.ExtensionMethods;
 using static CitizenFX.Core.Native.API;
 
-namespace test_project.Client
+namespace jackz_builder.Client
 {
     public class Color
     {

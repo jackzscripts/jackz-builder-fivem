@@ -4,17 +4,16 @@ using System.Reflection;
 using System.Threading.Tasks;
 using CitizenFX.Core;
 using CitizenFX.Core.Native;
-using ScaleformUI.Menu;
-using test_project.Client.Menu;
+using jackz_builder.Client.Menu;
 using static CitizenFX.Core.Native.API;
 
-namespace test_project.Client
+namespace jackz_builder.Client
 {
     public class ClientMain : BaseScript
     {
         private Action NextTick;
         public static ClientMain Instance { get; private set; }
-        public static Builder Builder { get; private set; }
+        public static Builder.Builder Builder { get; private set; }
         public static PointF MenuPosition { get; set; }
 
         private MainMenu menu;
@@ -23,7 +22,7 @@ namespace test_project.Client
         {
             Instance = this;
             // TODO: temp
-            Builder = new Builder();
+            Builder = new Builder.Builder();
             Debug.WriteLine($"Loaded ClientMain v{Version} - {DateTime.Now}");
             DrawRect(0.5f, 0.5f, 0.5f, 0.5f, 255, 255, 255, 150);
             

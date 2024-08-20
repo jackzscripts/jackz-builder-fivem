@@ -1,10 +1,7 @@
-using System;
 using System.Collections.Generic;
 using System.Drawing;
-using CitizenFX.Core;
-using ScaleformUI.Menu;
 
-namespace test_project.Client.MenuAPI
+namespace jackz_builder.Client.MenuAPI
 {
     /// <summary>
     /// Creates a list menu from a predefined list. 

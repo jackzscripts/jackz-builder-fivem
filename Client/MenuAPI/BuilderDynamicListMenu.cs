@@ -1,11 +1,9 @@
-using System;
 using System.Collections.Generic;
 using System.Drawing;
 using System.Linq;
 using System.Threading.Tasks;
-using ScaleformUI.Menu;
 
-namespace test_project.Client.MenuAPI
+namespace jackz_builder.Client.MenuAPI
 {
     public class BuilderDynamicListMenu<T> : BuilderBaseListMenu<T>
     {

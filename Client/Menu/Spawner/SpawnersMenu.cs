@@ -1,4 +1,6 @@
-namespace test_project.Client.Menu
+using jackz_builder.Client.Builder;
+
+namespace jackz_builder.Client.Menu.Spawner
 {
     public class SpawnersMenu : MenuAPI.BuilderMenu 
     {

@@ -3,7 +3,7 @@ using System.Drawing;
 using System.Threading.Tasks;
 using ScaleformUI.Menu;
 
-namespace test_project.Client.MenuAPI
+namespace jackz_builder.Client.MenuAPI
 {
     public abstract class BuilderBaseListMenu<T> : BuilderMenu
     {

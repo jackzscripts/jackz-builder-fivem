@@ -1,7 +1,8 @@
 using CitizenFX.Core;
+using jackz_builder.Client.Builder;
 using ScaleformUI.Menu;
 
-namespace test_project.Client.Menu
+namespace jackz_builder.Client.Menu
 {
     public class EntitySubListMenu : MenuAPI.BuilderMenu
     {

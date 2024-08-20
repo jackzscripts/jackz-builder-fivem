@@ -1,9 +1,8 @@
 using System;
 using CitizenFX.Core;
-using CitizenFX.Core.Native;
 using static CitizenFX.Core.Native.API;
 
-namespace cruise_control.Client.lib
+namespace jackz_builder.Client
 {
     
 

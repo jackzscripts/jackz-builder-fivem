@@ -3,7 +3,7 @@ using System.Threading.Tasks;
 using CitizenFX.Core;
 using Debug = System.Diagnostics.Debug;
 
-namespace test_project.Server
+namespace jackz_builder.Server
 {
     public class ServerMain : BaseScript
     {

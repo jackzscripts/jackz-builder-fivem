@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Threading;
 using System.Threading.Tasks;
 using CitizenFX.Core;
+using CitizenFX.Core.Native;
 using cruise_control.Client;
 using Newtonsoft.Json;
 
@@ -141,6 +142,11 @@ namespace test_project.Client
                 entry.Entity.Delete();
             }
             _entities.Clear();
+        }
+
+        public void Save()
+        {
+            string content = JsonConvert.SerializeObject(this);
         }
 
         private int _tick;

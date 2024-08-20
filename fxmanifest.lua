@@ -1,10 +1,10 @@
 fx_version 'bodacious'
 game 'gta5'
 
-file 'Client/bin/Release/**/publish/*.dll'
+file 'Client/*'
 
-client_script 'Client/bin/Release/**/publish/*.net.dll'
-server_script 'Server/bin/Release/**/publish/*.net.dll'
+client_script 'Client/*.net.dll'
+server_script 'Server/*.net.dll'
 
 author 'Jackz'
 version '0.1.0'

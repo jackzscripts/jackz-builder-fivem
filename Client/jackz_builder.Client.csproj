@@ -1,0 +1,24 @@
+<Project Sdk="CitizenFX.Sdk.Client/0.2.3">
+    <PropertyGroup>
+      <Version>0.1.0</Version>
+      <LangVersion>8</LangVersion>
+      <RootNamespace>jackz_builder.Client</RootNamespace>
+      <AssemblyName>jackz_builder.Client</AssemblyName>
+    </PropertyGroup>
+    <ItemGroup>
+        <Compile Include="../Shared/**/*.cs" />
+    </ItemGroup>
+    <ItemGroup>
+      <Reference Include="ScaleformUI">
+        <HintPath>..\ScaleformUI\ScaleformUI.dll</HintPath>
+      </Reference>
+    </ItemGroup>
+    <ItemGroup>
+      <PackageReference Include="Newtonsoft.Json" Version="13.0.3" />
+      <PackageReference Include="ScaleformUI" Version="5.3.5" />
+    </ItemGroup>
+    <ItemGroup>
+      <Folder Include="data\" />
+      <Folder Include="Menu\EditEntity\" />
+    </ItemGroup>
+</Project>

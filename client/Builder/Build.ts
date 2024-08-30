@@ -19,6 +19,7 @@ export default class Build {
     RootEntity: BuildEntity
     Name: string = "Untitled Build"
     Author: string = ""
+    Created: number = Date.now()
 
     static async StartNewStructure() {
         // TODO: in future, start prop selection?

@@ -9,6 +9,9 @@ export class AbortSignal {
   get [Symbol.toStringTag]() {
     return "AbortSignal";
   }
+  markAborted() {
+    this.aborted = true
+  }
   throwIfAborted() {
     if (this.aborted) {
       throw this.reason;
@@ -27,7 +30,7 @@ export class AbortController {
     if (reason) this.signal.reason = reason;
     else this.signal.reason = new Error("AbortError");
 
-    this.signal.dispatchEvent("abort");
+    this.signal.markAborted()
   }
   toString() {
     return "[object AbortController]";

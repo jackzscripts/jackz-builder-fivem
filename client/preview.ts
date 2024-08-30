@@ -43,7 +43,7 @@ async function createPreviewEntity( modelId: string, creationFn: ( hash: number,
     while ( !HasModelLoaded( hash ) && !signal.aborted ) {
         await Delay( 200 )
     }
-    signal.throwIfAborted()
+    if(signal.aborted) return null
 
     const pos = GetOffsetFromEntityInWorldCoords( GetPlayerPed( -1 ), 0, 5, 0 ) as Vector3
     const entity = creationFn( hash, pos )

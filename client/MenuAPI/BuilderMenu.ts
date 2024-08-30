@@ -1,8 +1,9 @@
-import NativeUI, { Menu, UIMenuItem } from "../../NativeUI/dist/nativeui/NativeUi.js";
+import NativeUI, { ItemsCollection, ListMenu, Menu, UIMenuItem } from "../../NativeUI/dist/nativeui/NativeUi.js";
 import { MENU_ORIGIN } from '../consts.js'
 
 import EventEmitter from "events"
 import TypedEmitter from "typed-emitter"
+import Point from '../../NativeUI/dist/nativeui/utils/Point';
 
 export class BuilderMenu extends Menu {
     #description: string
@@ -19,7 +20,7 @@ export class BuilderMenu extends Menu {
     get Description() { return this.#description }
     set Description( value: string ) { this.#description = value }
 
-    AddSubMenu( child: Menu | BuilderMenu ): void {
+    AddSubMenu( child: Menu | BuilderMenu | BuilderListMenu): void {
         const description = child instanceof BuilderMenu ? child.Description : ''
         super.AddSubMenu( child, new UIMenuItem( child.SubTitle, description ) )
     }
@@ -29,30 +30,19 @@ export class BuilderMenu extends Menu {
     // }
 }
 
-// export class BaseBuilderItem extends UIMenuItem  {
-//     get Parent(): NativeUI {
-//         return this.#parent;
-//     }
+export class BuilderListMenu extends ListMenu {
+    #description: string
 
-//     set Parent(value: NativeUI) {
-//         this.#parent = value;
-//     }
-//     #parent: Menu
-// }
-// export class BuilderItem extends (EventEmitter as new () => TypedEmitter<ItemEvents>){
-//     get Item(): BaseBuilderItem {
-//         return this.#item;
-//     }
+    constructor( title: string, description: string, items: ItemsCollection) {
+        super( "", title, items, MENU_ORIGIN )
+        this.#description = description ?? ""
+        this.SetNoBannerType()
+    }
 
-//     set Item(value: UIMenuItem) {
-//         this.#item = value;
-//     }
-//     #item: UIMenuItem
+    get Title() { return super.SubTitle }
+    set Title( title: string ) { super.SubTitle = title }
 
-//     constructor(label: string, description?: string) {
-//         super();
-//         this.#item = new UIMenuItem(label, description)
-//     }
+    get Description() { return this.#description }
+    set Description( value: string ) { this.#description = value }
 
-
-// }
+}

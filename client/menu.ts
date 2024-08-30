@@ -1,9 +1,8 @@
 import * as NativeUI from "../NativeUI/dist/nativeui/NativeUi.js";
 import Build, { ActiveBuild } from "./Builder/Build.js";
 import { RELEASE_CHANNEL, RESOURCE_VERSION } from './consts.js'
-import { BuilderMenu } from "./MenuAPI/BuilderMenu.js";
-import { clearPreview, previewVehicle } from "./preview.js";
-import UIMenuListItem from '../NativeUI/dist/nativeui/items/UIMenuListItem';
+import { BuilderListMenu, BuilderMenu } from "./MenuAPI/BuilderMenu.js";
+import { clearPreview, previewProp, previewVehicle } from "./preview.js";
 import { PROPS_CURATED } from "./data/props.js";
 
 export function openMenu() {
@@ -21,9 +20,7 @@ function createBuilderMenu() {
 function updateBuilderMenu( menu: BuilderMenu ) {
     menu.Clear()
     if ( ActiveBuild.get() ) {
-        const spawnerMenu = new BuilderMenu( "Spawner", "Spawn new entities" )
-        const entityEditMenu = new BuilderMenu( "Entities", "Edit spawned entities" )
-
+        menu.AddSubMenu( createBuilderInfoMenu() )
         menu.AddSubMenu( createSpawnerMenu() )
         menu.AddSubMenu( createEntityEditMenu() )
 
@@ -45,6 +42,29 @@ function updateBuilderMenu( menu: BuilderMenu ) {
         } )
         menu.AddItem( startStructureItem )
     }
+    return menu
+}
+
+function createBuilderInfoMenu() {
+    const menu = new BuilderMenu( "Info", "Information" );
+    
+    const nameItem = new NativeUI.UIMenuTextInputItem( "Name", "The name of the build", 100, ActiveBuild.get().Name )
+    nameItem.On( "input", name => {
+        ActiveBuild.get().Name = name
+    }) 
+    menu.AddItem( nameItem )
+    
+    const authorItem = new NativeUI.UIMenuTextInputItem( "Author", "The author of the build", 100, ActiveBuild.get().Author ?? "" )
+    nameItem.On( "input", value => {
+        ActiveBuild.get().Author = value
+    } )
+    menu.AddItem( authorItem )
+
+    const createdItem = new NativeUI.UIMenuItem( "Created", "When the build was created" )
+    createdItem.SetRightLabel( new Date( ActiveBuild.get().Created ).toLocaleString())
+    createdItem.Enabled = false
+    menu.AddItem(createdItem)
+
     return menu
 }
 
@@ -74,7 +94,18 @@ function createPropSpawner() {
     setupLoader()
     menu.On( "open", async () => {
         const props = await import( "./data/props.js" )
-        menu.AddItem( new UIMenuListItem( "Curated Props", "", new NativeUI.ItemsCollection( props.PROPS_CURATED ) ) )
+        
+        const curatedList = new BuilderListMenu( "Curated Props", "", new NativeUI.ItemsCollection( props.PROPS_CURATED ) )
+        curatedList.On( 'indexChange', ( index: number, item: NativeUI.UIMenuItem ) => {
+            previewProp(item.Text)
+        })
+        curatedList.On( 'select', ( item: NativeUI.UIMenuItem, index: number ) => {
+            console.log("selected:", item.Text)   
+        })
+        menu.AddSubMenu( curatedList )
+
+        const browseList = new BuilderListMenu( "Browse Props", "", new NativeUI.ItemsCollection( props.PROPS_LIST ) )
+        menu.AddSubMenu( browseList)
 
         menu.RemoveItemAtIndex(0)
     } )

@@ -1,0 +1,3 @@
+[submodule "NativeUI"]
+	path = NativeUI
+	url = git@github.com:Jackzmc/FiveM-NativeUI.git
